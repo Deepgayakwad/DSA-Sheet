@@ -1,0 +1,55 @@
+class Solution {
+private:
+    int countStudents(vector<int>& arr,int pages){
+    // initially students are 1 pages are 0
+    int students=1;
+    long long studentPages=0;
+
+    for(int i=0;i<arr.size();i++){
+        if(studentPages+arr[i]<=pages){
+            // when student has less pages than allowing to him maximum  pages then we are allowed
+            studentPages+=arr[i];
+        }
+        else{
+            // 
+            students++;
+            studentPages=arr[i];
+        }
+    }
+    return students;
+}
+
+
+
+
+
+int findPages(vector<int>& arr, int n, int m) {
+    // your ans is always lies between maximum sum of array which is high and maximum element of array
+    int low=*max_element(arr.begin(),arr.end());
+    int high=accumulate(arr.begin(),arr.end(),0);
+
+    while(low<=high){
+        int mid=low+(high-low)/2;
+        if(m>n){
+            // when number of students are greater than no of books 
+            return -1;
+        }
+        int students=countStudents(arr,mid);
+
+        if(students>m){
+            /* when students are greter than given students then we have increased the 
+               no of pages assigned to students 
+            */
+            low=mid+1;
+        }
+        else{
+            high=mid-1;
+        }
+    }
+    return low;
+}
+public:
+    int splitArray(vector<int>& nums, int k) {
+        return findPages(nums,nums.size(),k);
+    }
+};
