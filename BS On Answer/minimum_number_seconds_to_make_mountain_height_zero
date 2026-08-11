@@ -1,0 +1,52 @@
+class Solution {
+public:
+   
+   long long solve(long long T,vector<int>&workerTimes){
+      
+         
+            long long H = 0;
+
+            for(int i = 0;i < workerTimes.size();i++){
+                  
+                    long long currH = (sqrt(1+(8*T)/workerTimes[i])-1)/2;
+                    H += currH;
+            }
+
+            return H;
+   }
+   
+    long long minNumberOfSeconds(int mountainHeight, vector<int>& workerTimes) {
+        
+        long long minS = 1;
+        long long maxi = *max_element(workerTimes.begin(),workerTimes.end());
+        long long maxS = ((1LL*mountainHeight*(mountainHeight+1))/2)*maxi;
+
+
+        long long second = maxS;
+
+        long long left = minS;
+        long long right = maxS;
+
+      
+
+
+        while(left <= right){
+              
+               
+                 long long mid = left + (right - left)/2;
+
+                 long long currMHeight = solve(mid,workerTimes);
+
+                 if(currMHeight>=mountainHeight){
+                       second = mid;
+                       right = mid-1;
+                 }
+                 else{
+                      
+                      left = mid + 1;
+                 }
+        }
+
+        return second;
+    }
+};
